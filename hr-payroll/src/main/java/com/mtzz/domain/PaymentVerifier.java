@@ -10,7 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PaymentVerifier
 {
-    private String workerName;
+    private String nameOfWorker;
     private Double dailyIncome;
-    private Integer days;
+    private Integer workedDays;
+
+    public double getTotalReceivable()
+    {
+        return dailyIncome * workedDays;
+    }
 }
