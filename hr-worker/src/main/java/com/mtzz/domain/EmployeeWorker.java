@@ -11,11 +11,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "info_worker")
-public class Worker
+public class EmployeeWorker
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long workerId;
     private String nameOfWorker;
     private Double dailyIncome;
 }

@@ -1,6 +1,6 @@
 package com.mtzz.resource;
 
-import com.mtzz.domain.Worker;
+import com.mtzz.domain.EmployeeWorker;
 import com.mtzz.repository.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,23 +13,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/workers")
-public class WorkerResource {
+public class WorkerController {
 
     @Autowired
-    private WorkerRepository repository;
+    private WorkerRepository workerRepository;
 
 
     @GetMapping
-    public ResponseEntity<List<Worker>> findAll()
+    public ResponseEntity<List<EmployeeWorker>> listAllWorkers()
     {
-        List<Worker> workerList = repository.findAll();
-        return ResponseEntity.ok(workerList);
+        List<EmployeeWorker> employeeWorkerList = workerRepository.findAll();
+        return ResponseEntity.ok(employeeWorkerList);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Worker> findById(@PathVariable Long id)
+    public ResponseEntity<EmployeeWorker> findWorkerById(@PathVariable Long id)
     {
-        Worker localizedWorker = repository.findById(id).get();
-        return ResponseEntity.ok(localizedWorker);
+        EmployeeWorker localizedEmployeeWorker = workerRepository.findById(id).get();
+        return ResponseEntity.ok(localizedEmployeeWorker);
     }
 }
