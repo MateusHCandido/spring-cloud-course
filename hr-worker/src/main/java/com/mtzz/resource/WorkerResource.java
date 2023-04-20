@@ -1,6 +1,6 @@
 package com.mtzz.resource;
 
-import com.mtzz.entities.Worker;
+import com.mtzz.domain.Worker;
 import com.mtzz.repository.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

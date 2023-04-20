@@ -1,4 +1,4 @@
-package com.mtzz.entities;
+package com.mtzz.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
