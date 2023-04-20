@@ -26,10 +26,10 @@ public class WorkerController {
         return ResponseEntity.ok(employeeWorkerList);
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<EmployeeWorker> findWorkerById(@PathVariable Long id)
+    @GetMapping(path = "/{workerId}")
+    public ResponseEntity<EmployeeWorker> findWorkerById(@PathVariable Long workerId)
     {
-        EmployeeWorker localizedEmployeeWorker = workerRepository.findById(id).get();
+        EmployeeWorker localizedEmployeeWorker = workerRepository.findById(workerId).get();
         return ResponseEntity.ok(localizedEmployeeWorker);
     }
 }
