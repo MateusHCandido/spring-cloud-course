@@ -103,17 +103,15 @@ Calcula o quanto ganha por dia e quantos dias foram trabalhados
 
 #### Métodos da Classe PaymentCalculator
 
-- `public PaymentVerifier checkPaymentAmount(long workerId, int workedDays)`
+- `public PaymentVerifier checkPaymentDetails(long workerId, int workedDays)`
 
-Verifica o pagamento que o trabalhador tem a receber
+Método do tipo GET que checa os dados do trabalhador e apresenta quanto deverá receber baseado no quanto recebe por dia 
+trabalhado e quantos dias trabalhou.
 
-- `public Map<String, String> mapWorkerId(long workerId)`
+- `public EmployeeWorker generateWorkerFeignClient(long workerId)`
 
-Mapeia o id do trabalhador
-
-- `public EmployerWorker generateWorkerRestTemplate(Map<String, String> workerIds)`
-
-Efetua a geração de um Rest Template do domínio EmployerWorker
+Método que está utilizando o Feign client para realizar uma requisição HTTP GET para a API do serviço hr-worker, com o 
+objetivo de buscar informações sobre um trabalhador.
 
 ### Config Classes
 
@@ -124,8 +122,22 @@ Efetua a geração de um Rest Template do domínio EmployerWorker
 - `@Bean
    public RestTemplate restTemplate()`
 
-Gera um Bean para a classe restTemplate, que para este caso, é utilizada para realizar chamadas  em serviçoso REST, facilitando a forma
-de operar com os métodos HTTP (GET, POST, PUT, DELETE, etc.)
+Gera um Bean para a classe restTemplate, que para este caso, é utilizada para realizar chamadas  em serviçoso REST, 
+facilitando a forma de operar com os métodos HTTP (GET, POST, PUT, DELETE, etc.)
+
+### Config Interfaces
+
+#### WorkerFeignClient
+``@Component
+@FeignClient(name = "hr-worker", url = "localhost:8001", path = "/workers")
+public interface WorkerFeignClient``
+#### Métodos da Interface WorkerFeignClient
+
+``@GetMapping(path = "/{workerId}")
+ResponseEntity<EmployeeWorker> findWorkerById(@PathVariable Long workerId);``
+
+Efetua a busca do trabalhador através do seu id. Esse método corresponde ao método do serviço
+de busca por id do micro serviço hr-worker
 
 ### Resource Classes
 
@@ -140,6 +152,20 @@ de operar com os métodos HTTP (GET, POST, PUT, DELETE, etc.)
 Lança as informações do trabalhador junto com o resultado da checagem de quanto ele irá receber.
 
 
+### Main Class
+
+#### HrPayrollApplication
+
+Dentro da classe, onde é iniciada a aplicação do Spring Boot. Para que seja habilitada a capacidade de o Feign,
+foi habilitada a anotação @EnableFeignClients
+
+##### Informação sobre a anotação @EnableFeignClients
+
+`@EnableFeignClients` é uma anotação em Spring Boot que ativa a capacidade de usar o Feign, um cliente HTTP declarativo,
+em uma aplicação. Com essa anotação, é possível criar proxies de clientes HTTP simplesmente definindo interfaces e 
+anotações no código, ao invés de precisar escrever código boilerplate para cada chamada HTTP. O Feign também suporta 
+balanceamento de carga e fallbacks para outras instâncias de serviço em caso de falhas. A anotação `@EnableFeignClients`
+permite que a aplicação escaneie pacotes específicos para encontrar as interfaces Feign e configurá-las automaticamente.
 
 
 
