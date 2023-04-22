@@ -17,12 +17,12 @@ public class PaymentCalculator
 
     public PaymentVerifier checkPaymentDetails(long workerId, int workedDays)
     {
-        EmployeeWorker workerInformation = generateWorkerFeignClient(workerId);
+        EmployeeWorker workerInformation = generateWorkerFeignClientBy(workerId);
 
         return new PaymentVerifier(workerInformation.getNameOfWorker(), workerInformation.getDailyIncome(), workedDays);
     }
 
-    public EmployeeWorker generateWorkerFeignClient(long workerId)
+    public EmployeeWorker generateWorkerFeignClientBy(long workerId)
     {
         return workerFeignClient.findWorkerById(workerId).getBody();
     }
