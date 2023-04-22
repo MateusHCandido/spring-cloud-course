@@ -46,8 +46,10 @@ questões didáticas, irei utiliza-lo.
 
 #### HrWorkerApplication
 
-Dentro da classe, onde é iniciada a aplicação do Spring Boot. 
-Nela também se encontra a anotação `@EnableEurekaClient`, que habilita as funções do cliente da aplicação
+Classe onde é iniciada a aplicação do Spring Boot. 
+Nela também se encontra a anotação `@EnableEurekaClient`, que habilita as funções do cliente da aplicação e também a 
+habilitação de circuito de quebra, funcionalmente realizado pelo Hystrix. A anotação que define essa implementação é a
+`@EnableCircuitBreaker`
 
 
 ### Domain Classes
