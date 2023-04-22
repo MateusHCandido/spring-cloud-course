@@ -161,6 +161,14 @@ foi habilitada a anotação `@EnableFeignClients`.
  Nela também se encontra a anotação `@RibbonClient`, que fornece o balanceamento de carga do micro serviço hr-worker.
 
 
+## hr-eureka-server
+
+### Main Class
+
+#### HrEurekaServerApplication
+
+Dentro da classe principal, contém a anotação `@EnableEurekaClient` que serve para habilitar funcionalidade de registro
+e descoberta de serviços em um servidor Eureka em uma aplicação Spring.
 
 ### Informações sobre as anotações utilizadas
 
