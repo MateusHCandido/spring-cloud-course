@@ -208,3 +208,8 @@ desenvolvedor.
 
 A anotação @EnableEurekaClient é usada para habilitar a funcionalidade de registro e descoberta de serviços em um 
 servidor Eureka em uma aplicação Spring.
+
+#### Informação sobre a anotação @EnableEurekaClient
+
+A anotação @EnableEurekaClient é usada para habilitar a funcionalidade de registro e descoberta de serviços em um 
+servidor Eureka em uma aplicação Spring.
