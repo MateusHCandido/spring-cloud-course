@@ -129,7 +129,7 @@ facilitando a forma de operar com os métodos HTTP (GET, POST, PUT, DELETE, etc.
 
 #### WorkerFeignClient
 ``@Component
-@FeignClient(name = "hr-worker", url = "localhost:8001", path = "/workers")
+@FeignClient(name = "hr-worker", path = "/workers")
 public interface WorkerFeignClient``
 #### Métodos da Interface WorkerFeignClient
 
@@ -157,7 +157,8 @@ Lança as informações do trabalhador junto com o resultado da checagem de quan
 #### HrPayrollApplication
 
 Dentro da classe, onde é iniciada a aplicação do Spring Boot. Para que seja habilitada a capacidade de o Feign,
-foi habilitada a anotação @EnableFeignClients
+foi habilitada a anotação `@EnableFeignClients`. 
+ Nela também se encontra a anotação `@RibbonClient`, que fornece o balanceamento de carga do micro serviço hr-worker.
 
 
 
@@ -177,3 +178,10 @@ em uma aplicação. Com essa anotação, é possível criar proxies de clientes 
 anotações no código, ao invés de precisar escrever código boilerplate para cada chamada HTTP. O Feign também suporta 
 balanceamento de carga e fallbacks para outras instâncias de serviço em caso de falhas. A anotação `@EnableFeignClients`
 permite que a aplicação escaneie pacotes específicos para encontrar as interfaces Feign e configurá-las automaticamente.
+
+##### Informação sobre a anotação @RibbonClient
+
+A anotação `@RibbonClient` é uma ferramenta utilizada em aplicações de microsserviços que precisam lidar com o 
+balanceamento de carga. Ela funciona automaticamente, distribuindo a carga de trabalho entre várias instâncias do mesmo 
+serviço. Isso é feito com base em um algoritmo de balanceamento de carga configurado, que pode ser escolhido pelo 
+desenvolvedor.
