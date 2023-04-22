@@ -180,6 +180,16 @@ foi habilitada a anotação `@EnableFeignClients`.
 Dentro da classe principal, contém a anotação `@EnableEurekaClient` que serve para habilitar funcionalidade de registro
 e descoberta de serviços em um servidor Eureka em uma aplicação Spring.
 
+
+## hr-api-gateway-zuul
+
+### Main Class
+
+#### HrApiGatewayZuulApplication
+
+Além das configurações necessárias para executar a aplicação Spring, elaa também contém duas anotação: o 
+`@EnableEukaClient` e a anotação `@EnableZuulProxy`.
+
 ### Informações sobre as anotações utilizadas
 
 ##### Informação sobre a anotação @FeignClient
@@ -213,3 +223,13 @@ servidor Eureka em uma aplicação Spring.
 
 A anotação @EnableEurekaClient é usada para habilitar a funcionalidade de registro e descoberta de serviços em um 
 servidor Eureka em uma aplicação Spring.
+
+#### Informaão sobre a anotação @EnableZuulProxy
+
+A anotação `@EnableZuulProxy` é uma anotação utilizada no Spring Cloud para habilitar o roteamento e proxy reverso com o 
+Zuul, que é uma ferramenta de roteamento e balanceamento de carga usada em arquiteturas de microservices. Quando 
+utilizada, essa anotação permite que o aplicativo Spring se comporte como um proxy reverso e redirecione as solicitações
+de clientes para serviços específicos de acordo com a rota configurada no Zuul. Ele também oferece recursos como 
+filtragem de solicitações, balanceamento de carga, manipulação de solicitações e respostas, entre outros. Em resumo, o 
+`@EnableZuulProxy` é utilizado para habilitar o roteamento e proxy reverso com o Zuul em aplicações de microservices no 
+ecossistema Spring.
