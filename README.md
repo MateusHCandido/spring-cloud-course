@@ -42,6 +42,14 @@ questões didáticas, irei utiliza-lo.
 
 ## hr-worker
 
+### Main Class
+
+#### HrWorkerApplication
+
+Dentro da classe, onde é iniciada a aplicação do Spring Boot. 
+Nela também se encontra a anotação `@EnableEurekaClient`, que habilita as funções do cliente da aplicação
+
+
 ### Domain Classes
 
 #### EmployeeWorker
@@ -158,7 +166,7 @@ Lança as informações do trabalhador junto com o resultado da checagem de quan
 
 Dentro da classe, onde é iniciada a aplicação do Spring Boot. Para que seja habilitada a capacidade de o Feign,
 foi habilitada a anotação `@EnableFeignClients`. 
- Nela também se encontra a anotação `@RibbonClient`, que fornece o balanceamento de carga do micro serviço hr-worker.
+ Nela também se encontra a anotação `@EnableEurekaClient`, que habilita as funções do cliente da aplicação
 
 
 ## hr-eureka-server
@@ -193,3 +201,8 @@ A anotação `@RibbonClient` é uma ferramenta utilizada em aplicações de micr
 balanceamento de carga. Ela funciona automaticamente, distribuindo a carga de trabalho entre várias instâncias do mesmo 
 serviço. Isso é feito com base em um algoritmo de balanceamento de carga configurado, que pode ser escolhido pelo 
 desenvolvedor.
+
+#### Informação sobre a anotação @EnableEurekaClient
+
+A anotação @EnableEurekaClient é usada para habilitar a funcionalidade de registro e descoberta de serviços em um 
+servidor Eureka em uma aplicação Spring.
