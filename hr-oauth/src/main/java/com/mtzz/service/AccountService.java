@@ -21,7 +21,7 @@ public class AccountService implements UserDetailsService
 
     public Account findBy(String emailAccount)
     {
-        Account account = accountFeignClient.findBy(emailAccount).getBody();
+        Account account = accountFeignClient.findByEmailAccount(emailAccount).getBody();
         if(account == null)
         {
             logger.error("Email not found: " + emailAccount);
@@ -31,7 +31,7 @@ public class AccountService implements UserDetailsService
 
     @Override
     public UserDetails loadUserByUsername(String emailAccount) throws UsernameNotFoundException {
-        Account account = accountFeignClient.findBy(emailAccount).getBody();
+        Account account = accountFeignClient.findByEmailAccount(emailAccount).getBody();
         if(account == null)
         {
             logger.error("Email not found: " + emailAccount);

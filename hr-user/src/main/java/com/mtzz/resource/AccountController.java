@@ -15,6 +15,7 @@ public class AccountController
     @Autowired
     private AccountRepository accountRepository;
 
+
     @GetMapping(path = "/{accountId}")
     public ResponseEntity<Account> findById(@PathVariable Long accountId)
     {
@@ -27,7 +28,7 @@ public class AccountController
     {
         try
         {
-            Account account = accountRepository.findBy(emailAccount);
+            Account account = accountRepository.findByEmailAccount(emailAccount);
             return ResponseEntity.ok().body(account);
         }
         catch (IllegalArgumentException exception)

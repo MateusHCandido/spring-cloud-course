@@ -12,5 +12,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface AccountFeignClient
 {
     @GetMapping(path = "/search")
-    ResponseEntity<Account> findBy(@RequestParam String emailAccount);
+    ResponseEntity<Account> findByEmailAccount(@RequestParam String emailAccount);
 }

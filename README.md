@@ -75,6 +75,7 @@ habilitação de circuito de quebra, funcionalmente realizado pelo Hystrix. A an
 `paht = /workers`
 
 #### Métodos da Classe WorkerController
+
 -  `@GetMapping
     public ResponseEntity<List<EmployeeWorker>> listAllWorkers()`
 
@@ -219,12 +220,7 @@ desenvolvedor.
 A anotação @EnableEurekaClient é usada para habilitar a funcionalidade de registro e descoberta de serviços em um 
 servidor Eureka em uma aplicação Spring.
 
-#### Informação sobre a anotação @EnableEurekaClient
-
-A anotação @EnableEurekaClient é usada para habilitar a funcionalidade de registro e descoberta de serviços em um 
-servidor Eureka em uma aplicação Spring.
-
-#### Informaão sobre a anotação @EnableZuulProxy
+#### Informação sobre a anotação @EnableZuulProxy
 
 A anotação `@EnableZuulProxy` é uma anotação utilizada no Spring Cloud para habilitar o roteamento e proxy reverso com o 
 Zuul, que é uma ferramenta de roteamento e balanceamento de carga usada em arquiteturas de microservices. Quando 
@@ -233,3 +229,26 @@ de clientes para serviços específicos de acordo com a rota configurada no Zuul
 filtragem de solicitações, balanceamento de carga, manipulação de solicitações e respostas, entre outros. Em resumo, o 
 `@EnableZuulProxy` é utilizado para habilitar o roteamento e proxy reverso com o Zuul em aplicações de microservices no 
 ecossistema Spring.
+
+#### Informação sobre a anotação @EnableEurekaClient
+
+A anotação @EnableEurekaClient é usada para habilitar a funcionalidade de registro e descoberta de serviços em um 
+servidor Eureka em uma aplicação Spring.
+
+#### Informação sobre a anotação @EnableZuulProxy
+
+A anotação `@EnableZuulProxy` é uma anotação utilizada no Spring Cloud para habilitar o roteamento e proxy reverso com o 
+Zuul, que é uma ferramenta de roteamento e balanceamento de carga usada em arquiteturas de microservices. Quando 
+utilizada, essa anotação permite que o aplicativo Spring se comporte como um proxy reverso e redirecione as solicitações
+de clientes para serviços específicos de acordo com a rota configurada no Zuul. Ele também oferece recursos como 
+filtragem de solicitações, balanceamento de carga, manipulação de solicitações e respostas, entre outros. Em resumo, o 
+`@EnableZuulProxy` é utilizado para habilitar o roteamento e proxy reverso com o Zuul em aplicações de microservices no 
+ecossistema Spring.
+
+#### Informação sobre a anotação @RefreshScope
+
+`@RefreshScope` é uma anotação do Spring Framework que pode ser aplicada em classes ou métodos, permitindo que as 
+propriedades anotadas sejam atualizadas em tempo de execução. Essa anotação é útil para atualizar propriedades que podem
+ser alteradas sem a necessidade de reiniciar a aplicação. Ao utilizar o @RefreshScope, é possível que as alterações 
+feitas nas propriedades sejam refletidas instantaneamente sem a necessidade de interrupção do serviço. A anotação é 
+comumente utilizada em aplicações que utilizam o Spring Cloud Config Server para gerenciamento de configurações.
