@@ -38,217 +38,58 @@ questões didáticas, irei utiliza-lo.
 * Spring Cloud
 * Spring Security
 * Lombok
+* Docker
 
 
-## hr-worker
+## [hr-worker](https://github.com/MateusHCandido/worker-service-infrastructure/tree/main/hr-worker)
 
-### Main Class
+Microservice onde está composta a consulta da base de dados de trabalhadores
 
-#### HrWorkerApplication
 
-Classe onde é iniciada a aplicação do Spring Boot. 
-Nela também se encontra a anotação `@EnableEurekaClient`, que habilita as funções do cliente da aplicação e também a 
-habilitação de circuito de quebra, funcionalmente realizado pelo Hystrix. A anotação que define essa implementação é a
-`@EnableCircuitBreaker`
+## [hr-payroll](https://github.com/MateusHCandido/worker-service-infrastructure/tree/main/hr-payroll)
 
+Microservice responsável pelo cálculo dos dias trabalhados e do quanto o trabalhador ganha por dia trabalhado
 
-### Domain Classes
 
-#### EmployeeWorker
+## [hr-eureka-server](https://github.com/MateusHCandido/worker-service-infrastructure/tree/main/hr-eureka-server)
 
-#### Atributos:
-- workerId (tipo Long)
-- nameOfWorker (tipo String)
-- dailyIncome (tipo Double)
+Microsserviço responsável pelo serviço de descoberta das aplicações. Basicamente, é um servidor usado para implementar
+padrões de descoberta dos serviços, permitinddo que os microservices se comuniquem. Dentro do servidor também apresenta
+a listagem de todos os serviços registrados e também suas instâncias atuais.
+ O servidor Eureka é altamente escalável e tolerante a falhas, ou seja, ele permite que novos serviços sejam facilemente
+adicionados ou removidos dentro do registro de serviços.
 
 
-### Repository Classes
+## [hr-api-gateway-zuul](https://github.com/MateusHCandido/worker-service-infrastructure/tree/main/hr-api-gateway-zuul)
 
-#### WorkerRepository
-`public interface WorkerRepository extends JpaRepository<EmployeeWorker, Long>`
 
+Este microservice serve como ferramente de roteamento e proxy reverso que atua como um gateway, ou seja, um roteamente, 
+para a comunicação entre os microserviços. Ele fornece um ponto central de entrada para as solicitações por parte do
+cliente e por ser usado para distribuir o tráfego de entrada para diferentes instâncias de um mesmo serviço ou para 
+serviços diferentes.
+ "O Zuul permite a implementação de política de segurança, roteamento dinâmico de solicitações, balanceamento de carga,
+cache entre outras funcionalidades."
 
-### Resource Classes
 
-#### WorkerController
+## [hr-user](https://github.com/MateusHCandido/worker-service-infrastructure/tree/main/hr-user)
 
-`paht = /workers`
+Microserviço responsável por tomar frente da geração de perfís onde contém permissões de acesso. Sendo feito o use de 
+solicitações e autenticações do usuário para utilizar os serviços dos demais microservices, através de sua conexão com o
+microservice hr-oauth.
 
-#### Métodos da Classe WorkerController
+## hr-oauth(https://github.com/MateusHCandido/worker-service-infrastructure/tree/main/hr-oauth)
 
--  `@GetMapping
-    public ResponseEntity<List<EmployeeWorker>> listAllWorkers()`
+Microserviço que utiliza protocolocos para autenticação e autorização das aplicações WEB e também de APIs. No caso desse
+microservice, ele está utilizando o Oauth e o JWT para realizar essas ações.
 
-Método do tipo GET que serve para listar todos os trabalhadores cadastrados.
+## [hr-config-server](https://github.com/MateusHCandido/worker-service-infrastructure/tree/main/hr-config-server)
 
-- `@GetMapping(path = "/{workerId}")
-  public ResponseEntity<EmployeeWorker> findWorkerById(@PathVariable Long workerId)`
+Esse microserviço foi criado com o propósito de estar chamando as configurações de um servidor remoto, onde ele irá verificar
+as configurações da aplicação, referente a banco de dados, usernames, password, chaves não registradas na aplicação, mas
+sim em uma alocação remota. No caso desta aplicação foi inserida em um repositório privado no meu github.
 
-Método do tipo GET que efetua a busca de um trabalhador através do seu ID.
 
+##### Considerações finais sobre o projeto criado
 
-## hr-payroll
-
-### Domain Classes
-
-#### PaymentVerifier
-
-#### Atributos:
-- nameOfWorker (tipo String)
-- dailyIncome (tipo Double)
-- workedDays (tipo Integer)
-
-#### Métodos:
-- getTotalReceivable()
-Calcula o quanto ganha por dia e quantos dias foram trabalhados
-
-#### EmployeeWorker
-#### Atributos:
-- nameOfWorker (tipo String)
-- dailyIncome (tipo Double)
-- workedDays (tipo Integer)
-
-### Services Classes
-
-#### PaymentCalculator
-
-#### Métodos da Classe PaymentCalculator
-
-- `public PaymentVerifier checkPaymentDetails(long workerId, int workedDays)`
-
-Método do tipo GET que checa os dados do trabalhador e apresenta quanto deverá receber baseado no quanto recebe por dia 
-trabalhado e quantos dias trabalhou.
-
-- `public EmployeeWorker generateWorkerFeignClient(long workerId)`
-
-Método que está utilizando o Feign client para realizar uma requisição HTTP GET para a API do serviço hr-worker, com o 
-objetivo de buscar informações sobre um trabalhador.
-
-### Config Classes
-
-#### RestClientConfig
-
-#### Métodos da Classe RestClientConfig
-
-- `@Bean
-   public RestTemplate restTemplate()`
-
-Gera um Bean para a classe restTemplate, que para este caso, é utilizada para realizar chamadas  em serviçoso REST, 
-facilitando a forma de operar com os métodos HTTP (GET, POST, PUT, DELETE, etc.)
-
-### Config Interfaces
-
-#### WorkerFeignClient
-``@Component
-@FeignClient(name = "hr-worker", path = "/workers")
-public interface WorkerFeignClient``
-#### Métodos da Interface WorkerFeignClient
-
-``@GetMapping(path = "/{workerId}")
-ResponseEntity<EmployeeWorker> findWorkerById(@PathVariable Long workerId);``
-
-Efetua a busca do trabalhador através do seu id. Esse método corresponde ao método do serviço
-de busca por id do micro serviço hr-worker
-
-### Resource Classes
-
-#### PaymentController
-
-`path = "/payments"`
-
-#### Métodos:
-
-- ` @GetMapping(path = "/{workerId}/worker-days/{workerDays}")`
-
-Lança as informações do trabalhador junto com o resultado da checagem de quanto ele irá receber.
-
-
-### Main Class
-
-#### HrPayrollApplication
-
-Dentro da classe, onde é iniciada a aplicação do Spring Boot. Para que seja habilitada a capacidade de o Feign,
-foi habilitada a anotação `@EnableFeignClients`. 
- Nela também se encontra a anotação `@EnableEurekaClient`, que habilita as funções do cliente da aplicação
-
-
-## hr-eureka-server
-
-### Main Class
-
-#### HrEurekaServerApplication
-
-Dentro da classe principal, contém a anotação `@EnableEurekaClient` que serve para habilitar funcionalidade de registro
-e descoberta de serviços em um servidor Eureka em uma aplicação Spring.
-
-
-## hr-api-gateway-zuul
-
-### Main Class
-
-#### HrApiGatewayZuulApplication
-
-Além das configurações necessárias para executar a aplicação Spring, elaa também contém duas anotação: o 
-`@EnableEukaClient` e a anotação `@EnableZuulProxy`.
-
-### Informações sobre as anotações utilizadas
-
-##### Informação sobre a anotação @FeignClient
-A anotação `@FeignClient` utilizada no Spring Cloud para criar uma interface de cliente HTTP de forma declarativa, sem a
-necessidade de escrever manualmente as chamadas de API HTTP. É possível configurar várias opções, como nome do serviço 
-remoto, URL do serviço e autenticação, e o Spring Cloud cria automaticamente um cliente HTTP capaz de fazer chamadas 
-para o serviço remoto a partir dos métodos definidos na interface anotada. Essa anotação é útil em arquiteturas de 
-microsserviços para facilitar a comunicação entre vários serviços.
-
-##### Informação sobre a anotação @EnableFeignClients
-
-`@EnableFeignClients` é uma anotação em Spring Boot que ativa a capacidade de usar o Feign, um cliente HTTP declarativo,
-em uma aplicação. Com essa anotação, é possível criar proxies de clientes HTTP simplesmente definindo interfaces e 
-anotações no código, ao invés de precisar escrever código boilerplate para cada chamada HTTP. O Feign também suporta 
-balanceamento de carga e fallbacks para outras instâncias de serviço em caso de falhas. A anotação `@EnableFeignClients`
-permite que a aplicação escaneie pacotes específicos para encontrar as interfaces Feign e configurá-las automaticamente.
-
-##### Informação sobre a anotação @RibbonClient
-
-A anotação `@RibbonClient` é uma ferramenta utilizada em aplicações de microsserviços que precisam lidar com o 
-balanceamento de carga. Ela funciona automaticamente, distribuindo a carga de trabalho entre várias instâncias do mesmo 
-serviço. Isso é feito com base em um algoritmo de balanceamento de carga configurado, que pode ser escolhido pelo 
-desenvolvedor.
-
-#### Informação sobre a anotação @EnableEurekaClient
-
-A anotação @EnableEurekaClient é usada para habilitar a funcionalidade de registro e descoberta de serviços em um 
-servidor Eureka em uma aplicação Spring.
-
-#### Informação sobre a anotação @EnableZuulProxy
-
-A anotação `@EnableZuulProxy` é uma anotação utilizada no Spring Cloud para habilitar o roteamento e proxy reverso com o 
-Zuul, que é uma ferramenta de roteamento e balanceamento de carga usada em arquiteturas de microservices. Quando 
-utilizada, essa anotação permite que o aplicativo Spring se comporte como um proxy reverso e redirecione as solicitações
-de clientes para serviços específicos de acordo com a rota configurada no Zuul. Ele também oferece recursos como 
-filtragem de solicitações, balanceamento de carga, manipulação de solicitações e respostas, entre outros. Em resumo, o 
-`@EnableZuulProxy` é utilizado para habilitar o roteamento e proxy reverso com o Zuul em aplicações de microservices no 
-ecossistema Spring.
-
-#### Informação sobre a anotação @EnableEurekaClient
-
-A anotação @EnableEurekaClient é usada para habilitar a funcionalidade de registro e descoberta de serviços em um 
-servidor Eureka em uma aplicação Spring.
-
-#### Informação sobre a anotação @EnableZuulProxy
-
-A anotação `@EnableZuulProxy` é uma anotação utilizada no Spring Cloud para habilitar o roteamento e proxy reverso com o 
-Zuul, que é uma ferramenta de roteamento e balanceamento de carga usada em arquiteturas de microservices. Quando 
-utilizada, essa anotação permite que o aplicativo Spring se comporte como um proxy reverso e redirecione as solicitações
-de clientes para serviços específicos de acordo com a rota configurada no Zuul. Ele também oferece recursos como 
-filtragem de solicitações, balanceamento de carga, manipulação de solicitações e respostas, entre outros. Em resumo, o 
-`@EnableZuulProxy` é utilizado para habilitar o roteamento e proxy reverso com o Zuul em aplicações de microservices no 
-ecossistema Spring.
-
-#### Informação sobre a anotação @RefreshScope
-
-`@RefreshScope` é uma anotação do Spring Framework que pode ser aplicada em classes ou métodos, permitindo que as 
-propriedades anotadas sejam atualizadas em tempo de execução. Essa anotação é útil para atualizar propriedades que podem
-ser alteradas sem a necessidade de reiniciar a aplicação. Ao utilizar o @RefreshScope, é possível que as alterações 
-feitas nas propriedades sejam refletidas instantaneamente sem a necessidade de interrupção do serviço. A anotação é 
-comumente utilizada em aplicações que utilizam o Spring Cloud Config Server para gerenciamento de configurações.
+ Pelo fato de estar realizando o projeto através do curso, onde estava em fase de aprendizado. Foi deixado de lado, em alguns momentos as composições de boas práticas de programação, como testes, camadas de serviço, dto's e também seleções melhores para nomes de objetos e variáveis.
+  Em próximos projetos, será apresentado uma melhor forma englobar um projeto utilizando as mesmas ferramentas junto às boas práticas.
