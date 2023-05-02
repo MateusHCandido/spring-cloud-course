@@ -77,7 +77,7 @@ Microserviço responsável por tomar frente da geração de perfís onde contém
 solicitações e autenticações do usuário para utilizar os serviços dos demais microservices, através de sua conexão com o
 microservice hr-oauth.
 
-## hr-oauth(https://github.com/MateusHCandido/worker-service-infrastructure/tree/main/hr-oauth)
+## [hr-oauth](https://github.com/MateusHCandido/worker-service-infrastructure/tree/main/hr-oauth)
 
 Microserviço que utiliza protocolocos para autenticação e autorização das aplicações WEB e também de APIs. No caso desse
 microservice, ele está utilizando o Oauth e o JWT para realizar essas ações.
